@@ -1,7 +1,6 @@
 from datetime import date
 from dateutil.relativedelta import relativedelta
 
-
 ACCOUNTS = []
 LOANS = []
 CUSTOMERS = []
@@ -28,6 +27,25 @@ class Account:
         self.open_date = CURRENT_DATE
         ACCOUNTS.append(self)
 
+    def current_balance(self):
+        print(f'Current Balance: ${self.balance:.2f}')
+        print()
+
+    def deposit(self, amount):
+        self.balance += amount
+        self.current_balance()
+        print()
+
+    def withdraw(self, amount):
+        if amount > self.balance:
+            print('Insufficient Funds')
+            self.current_balance()
+            print()
+        else:
+            self.balance -= amount
+            self.current_balance()
+            print()
+
 class Customer: 
     def __init__(self):
         self.number = len(CUSTOMERS) + 1
@@ -44,36 +62,45 @@ class Customer:
     def payment_on_loan(self):
         pass
 
-    def deposit(self):
-        pass
-
-    def withdraw(self):
-        pass
-
 def advance_date():
     global CURRENT_DATE
     CURRENT_DATE = CURRENT_DATE + relativedelta(months=1)
+    print()
     print('Date advanced')
 
 def print_options():
     print(f'Today: {CURRENT_DATE.strftime("%A %d. %B %Y")}')
     print('1: Advance to the next month')
+    print('2: Check balance')
+    print('3: Deposit to savings')
+    print('4: Withdraw from savings')
     print()
 
-def execute_option(option):
+def execute_option(option,customer):
     if option == 1:
         advance_date()
+    elif option == 2:
+        customer.account.current_balance()
+    elif option == 3:
+        amount = int(input('Deposit amount: '))
+        customer.account.deposit(amount)
+    elif option == 4:
+        amount = int(input('Withdraw amount: '))
+        customer.account.withdraw(amount)
+
 
 
 def main():
     user_input = ''
+    customer = Customer()
     while True:
         print_options()
         user_input = input('Select an option: ')
         if user_input == 'q':
             return
         else:
-            execute_option(int(user_input))
+            print()
+            execute_option(int(user_input),customer)
 
 if __name__=="__main__":
     main()
