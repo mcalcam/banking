@@ -88,8 +88,6 @@ def execute_option(option,customer):
         amount = int(input('Withdraw amount: '))
         customer.account.withdraw(amount)
 
-
-
 def main():
     user_input = ''
     customer = Customer()
