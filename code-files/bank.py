@@ -3,7 +3,7 @@ from dateutil.relativedelta import relativedelta
 
 ACCOUNTS = []
 LOANS = []
-CUSTOMERS = []
+CUSTOMER = None
 CURRENT_DATE = date.today()
 
 class Loan:
@@ -48,10 +48,8 @@ class Account:
 
 class Customer: 
     def __init__(self):
-        self.number = len(CUSTOMERS) + 1
         self.account = Account()
         self.loans = []
-        CUSTOMERS.append(self)
 
     def initiate_loan(self): 
         if len(self.loans) == 3:
@@ -76,21 +74,22 @@ def print_options():
     print('4: Withdraw from savings')
     print()
 
-def execute_option(option,customer):
+def execute_option(option,CUSTOMER):
     if option == 1:
         advance_date()
     elif option == 2:
-        customer.account.current_balance()
+        CUSTOMER.account.current_balance()
     elif option == 3:
         amount = int(input('Deposit amount: '))
-        customer.account.deposit(amount)
+        CUSTOMER.account.deposit(amount)
     elif option == 4:
         amount = int(input('Withdraw amount: '))
-        customer.account.withdraw(amount)
+        CUSTOMER.account.withdraw(amount)
 
 def main():
+    
     user_input = ''
-    customer = Customer()
+    CUSTOMER = Customer()
     while True:
         print_options()
         user_input = input('Select an option: ')
@@ -98,7 +97,7 @@ def main():
             return
         else:
             print()
-            execute_option(int(user_input),customer)
+            execute_option(int(user_input),CUSTOMER)
 
 if __name__=="__main__":
     main()
