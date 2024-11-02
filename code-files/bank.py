@@ -1,6 +1,14 @@
 from datetime import date
 from dateutil.relativedelta import relativedelta
 
+# Constants
+MIN_LOAN_AMOUNT = 500
+MAX_LOAN_AMOUNT = 50000
+MIN_INTEREST_RATE = 0.06
+MAX_INTEREST_RATE = 0.18
+LATE_FEE = 50
+MIN_PAYMENT = 10
+
 ACCOUNTS = []
 LOANS = []
 CUSTOMER = None
@@ -16,9 +24,31 @@ class Loan:
         # self.balance
 
         LOANS.append(self)
+
+    def __init__(self, principal, interest_rate):
+        self.principal = principal
+        self.interest_rate = interest_rate
+        self.balance = principal
+        self.accrued_interest = 0
+        self.last_payment_date = CURRENT_DATE
+        LOANS.append(self)
     
     def calculate_interest(self):
-        pass
+        monthly_rate = self.interest_rate / 12
+        self.accrued_interest += self.balance * monthly_rate
+
+    def make_payment(self, amount):
+        if amount < self.minimum_payment():
+            self.balance += LATE_FEE
+        else:
+            self.balance -= amount
+            if self.balance <= 0:
+                LOANS.remove(self)
+
+    def minimum_payment(self):
+        interest_due = self.accrued_interestpoint
+        principal_payment = max(self.principal * 0.01, MIN_PAYMENT)
+        return interest_due + principal_payment
 
 class Account:
     def __init__(self):
