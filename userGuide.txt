@@ -1,0 +1,37 @@
+Overview
+
+This program simulates basic banking functionalities, including managing a savings account, applying for loans, and making loan payments. It allows users to perform monthly operations such as accruing interest on balances and generating statements.
+
+Starting the Program
+
+	•	Run the program in a Python-compatible environment.
+	•	Follow the on-screen prompts to navigate the menu options.
+
+Menu Options
+
+Upon starting, you will see the following options:
+
+	1.	Advance to the next month
+Advances the simulation date by one month. This accrues interest on savings and outstanding loans and generates monthly statements.
+	2.	Check balance
+Displays the current balance of your savings account and all active loans.
+	3.	Deposit to savings
+Allows you to deposit a specified amount into your savings account.
+	4.	Withdraw from savings
+Allows you to withdraw a specified amount from your savings account. You cannot withdraw more than the current balance.
+	5.	Initiate a loan
+Allows you to apply for a loan. You will be prompted to enter:
+	•	Principal amount (between $500 and $50,000)
+	•	Interest rate (between 0.06 and 0.18)
+Note: Each customer can have up to three active loans. If these criteria are not met, an error message will appear.
+	6.	Make a payment on a loan
+Allows you to make a payment toward an existing loan. You will need to:
+	•	Specify the loan number (1, 2, or 3, as applicable)
+	•	Enter the payment amount
+If the payment is less than the minimum amount due, a late fee of $50 will be added to the loan balance.
+
+Additional Details
+
+	•	Accruing Interest: Each month, interest is calculated and applied to both savings and loan balances.
+	•	Statements: At the end of each month, a statement shows the beginning balance, loan balances, and ending balance for the period.
+	•	Exiting the Program: Enter q at any prompt to exit the program.
