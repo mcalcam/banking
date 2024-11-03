@@ -1,4 +1,5 @@
 from datetime import datetime, timedelta
+import re
 
 # Constants
 MIN_LOAN_AMOUNT = 500
@@ -131,28 +132,72 @@ def print_options():
     print('6: Make a payment on a loan')
     print()
 
+# Returns true if the value is a positive int
+def is_valid_int(amount) -> bool:
+    return amount.isdigit() and int(amount) >= 0
+
+# Returns true if the value is a positive decimal
+def is_valid_dec(amount) -> bool:
+    try:
+        return float(amount) >= 0
+    except ValueError:
+        return False
+
 def execute_option(option, CUSTOMER):
     if option == 1:
         advance_date()
     elif option == 2:
         CUSTOMER.current_balance()
     elif option == 3:
-        amount = int(input('Deposit amount: '))
-        CUSTOMER.account.deposit(amount)
+        user_input = input('Deposit amount: ')
+        if is_valid_int(user_input):
+            amount = int(user_input)
+            CUSTOMER.account.deposit(amount)
+        else:
+            print('\nInvalid deposit amount\n')
     elif option == 4:
-        amount = int(input('Withdraw amount: '))
-        CUSTOMER.account.withdraw(amount)
+        user_input = input('Withdraw amount: ')
+        if is_valid_int(user_input):
+            amount = int(user_input)
+            CUSTOMER.account.withdraw(amount)
+        else:
+            print('\nInvalid deposit amount\n')
     elif option == 5:
-        principal = int(input('Loan principal amount: '))
-        interest_rate = float(input('Loan interest rate (as a decimal): '))
+        principal = input('Loan principal amount: ')
+        if is_valid_int(principal):
+            principal = int(principal)
+        else:
+            print('\nInvalid principal value\n')
+            return
+                        
+        interest_rate = input('Loan interest rate (as a decimal): ')
+        if is_valid_dec(interest_rate):
+            interest_rate = float(interest_rate)
+        else:
+            print('\nInvalid loan interest rate value\n')
+            return
+        
         CUSTOMER.initiate_loan(principal, interest_rate)
     elif option == 6:
-        loan_number = int(input('Loan number: '))
-        amount = int(input('Payment amount: '))
+        loan_number = input('Loan number: ')
+        if is_valid_int(loan_number):
+            loan_number = int(loan_number)
+        else:
+            print('\nInvalid loan number')
+            return
+        
+        amount = input('Payment amount: ')
+        if is_valid_int(amount):
+            amount = int(amount)
+        else:
+            print('\nInvalid payment amount')
+            return
         if 0 < loan_number <= len(CUSTOMER.loans):
             CUSTOMER.payment_on_loan(CUSTOMER.loans[loan_number - 1], amount)
         else:
             print('Invalid loan number')
+    else:
+        print('Invalid Input\n')
 
 def main():
     user_input = ''
@@ -163,6 +208,8 @@ def main():
         user_input = input('Select an option: ')
         if user_input == 'q':
             return
+        elif re.search(r'\D', user_input):
+            print('\nInvalid Input\n')
         else:
             print()
             execute_option(int(user_input), CUSTOMER)
