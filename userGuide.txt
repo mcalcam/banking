@@ -4,7 +4,7 @@ This program simulates basic banking functionalities, including managing a savin
 
 Starting the Program
 
-	•	Run the program in a Python-compatible environment.
+	•	Run the bank.exe program in a Python-compatible environment.
 	•	Follow the on-screen prompts to navigate the menu options.
 
 Menu Options
