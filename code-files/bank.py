@@ -34,8 +34,10 @@ class Loan:
 
     def make_payment(self, amount):
         if amount < self.minimum_payment():
+            # Only add the late fee; do not deduct the insufficient payment amount
             self.balance += LATE_FEE
         else:
+            # Deduct the payment amount if it meets or exceeds the minimum payment
             self.balance -= amount
             if self.balance <= 0:
                 LOANS.remove(self)
@@ -58,19 +60,21 @@ class Account:
         print()
 
     def deposit(self, amount):
+        if amount < 0:
+            print("Invalid deposit amount")
+            return
         self.balance += amount
         self.current_balance()
-        print()
 
     def withdraw(self, amount):
+        if amount < 0:
+            print("Invalid withdrawal amount")
+            return
         if amount > self.balance:
-            print('Insufficient Funds')
-            self.current_balance()
-            print()
+            print("Insufficient Funds")
         else:
             self.balance -= amount
-            self.current_balance()
-            print()
+        self.current_balance()
 
     def calculate_interest(self):
         monthly_rate = self.interest_rate / 12
@@ -96,6 +100,8 @@ class Customer:
     def payment_on_loan(self, loan, amount):
         if loan in self.loans:
             loan.make_payment(amount)
+            if loan.balance == 0: # Remove loan if fully paid.
+                self.loans.remove(loan)
 
     def generate_statement(self):
         print(f"Statement for Account {self.account.number}")

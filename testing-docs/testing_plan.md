@@ -99,3 +99,27 @@ The scope of this testing plan includes verification of the following:
 ### 10. Loan Account Closure Criteria
 
 - **Test ID 10.1**: Test automatic loan closure when the balance is fully paid and decide if it should be immediate or processed at month-end.
+
+# Additional Tests for Comprehensive Coverage
+
+## Boundary Testing for Interest Rates
+- **Test**: Verify that loans created with exact minimum (6%) and maximum (18%) interest rates are accepted without error.
+
+## Edge Cases for Payments
+- **Test**: Verify that a payment exactly equal to the minimum required does not trigger a late fee.
+- **Test**: Verify that multiple loans paid off in the same month are correctly removed from the customer’s account without issue.
+
+## Accrued Interest Persistence
+- **Test**: Ensure accrued interest resets to zero after being applied to the balance at month-end, confirming accurate interest calculations.
+
+## Data Integrity with Multiple Customers
+- **Test**: Ensure that actions taken on one customer’s account do not affect the data or account status of another customer, preserving data integrity across multiple accounts.
+
+## Negative Testing for Deposits and Withdrawals
+- **Test**: Ensure that negative deposit amounts are rejected and do not alter the account balance.
+- **Test**: Ensure that negative withdrawal amounts are rejected and do not alter the account balance.
+
+## Stress Testing for Account and Loan Limits
+- **Test**: Verify that the system can handle a high volume of customer accounts (e.g., 100 customers) and loans (e.g., 50 loans) without degradation or errors.
+- **Test**: Ensure that the maximum loan limit is enforced even under high-volume conditions, preventing customers from exceeding three active loans.
+~
